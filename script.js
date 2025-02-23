@@ -6,11 +6,28 @@ let score = 0;
 let time = 30;
 let timer;
 
-document.querySelectorAll(".category-btn").forEach(button => {
-    button.addEventListener("click", () => {
-        currentWords = categories[button.dataset.category].slice(); // 選択カテゴリの問題リスト
-        startGame();
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".category-btn").forEach(button => {
+        button.addEventListener("click", () => {
+            const category = button.dataset.category;
+            if (categories[category]) {
+                currentWords = categories[category].slice(); // 選択カテゴリの問題リスト
+                startGame();
+            } else {
+                console.error(`カテゴリ「${category}」が見つかりません！`);
+            }
+        });
     });
+
+    document.getElementById("answer").addEventListener("input", (e) => {
+        if (e.target.value === currentWord) {
+            score++;
+            document.getElementById("points").textContent = score;
+            nextWord();
+        }
+    });
+
+    document.getElementById("quit").addEventListener("click", endGame);
 });
 
 function startGame() {
@@ -38,18 +55,9 @@ function nextWord() {
     document.getElementById("answer").value = "";
 }
 
-document.getElementById("answer").addEventListener("input", (e) => {
-    if (e.target.value === currentWord) {
-        score++;
-        document.getElementById("points").textContent = score;
-        nextWord();
-    }
-});
-
-document.getElementById("quit").addEventListener("click", endGame);
-
 function endGame() {
     clearInterval(timer);
     alert(`ゲーム終了！スコア: ${score}`);
     location.reload();
 }
+
