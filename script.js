@@ -1,4 +1,4 @@
-import { categories } from "categories.js";
+import { categories } from "/categories.js";
 
 let currentWords = [];
 let currentWord = "";
