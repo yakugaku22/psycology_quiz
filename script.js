@@ -1,3 +1,5 @@
+import { categories } from "./categories.js";
+
 let currentWords = [];
 let currentWord = "";
 let score = 0;
