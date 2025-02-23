@@ -1,4 +1,4 @@
-const questions = {
+export const questions = {
     schizophrenia: [
         { question: "統合失調症の陽性症状に効果的な薬は？", answer: "リスペリドン" },
         { question: "統合失調症の治療に用いられる非定型抗精神病薬は？", answer: "オランザピン" }
