@@ -1,48 +1,38 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-}
-
-h1 {
-    color: #333;
-}
-
-.game-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.column {
-    width: 200px;
-    margin: 0 20px;
-    padding: 10px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.column div {
-    padding: 10px;
-    margin: 5px 0;
-    background: #e0e0e0;
-    cursor: grab;
-    border-radius: 4px;
-}
-
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    background: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #0056b3;
-}
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-color: #f4f4f4;
+        }
+        .game-container {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+            position: relative;
+        }
+        .column {
+            width: 45%;
+        }
+        .item {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            text-align: center;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        #check-button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
