@@ -3,37 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>薬タイピングゲーム</title>
+    <title>薬のマッチングゲーム</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container" id="start-screen">
-        <h1>💊薬理Ⅱお薬ゲーム💊</h1>
-        <p>疾患を選んでタイピングゲームを始めよう！</p>
-        <div class="category-list">
-            <button class="category-btn" data-category="schizophrenia">統合失調症</button>
-            <button class="category-btn" data-category="depression">うつ病</button>
-            <button class="category-btn" data-category="bipolar">躁病(炭酸リチウム)</button>
-            <button class="category-btn" data-category="sedative">鎮静-催眠薬</button>
-            <button class="category-btn" data-category="anxiety">不安障害・神経症</button>
-            <button class="category-btn" data-category="parkinson">パーキンソン病</button>
-            <button class="category-btn" data-category="dementia">認知症・脳血管疾患</button>
-            <button class="category-btn" data-category="epilepsy">てんかん</button>
+    <h1>薬のマッチングゲーム</h1>
+    <div class="game-container">
+        <div class="column" id="mechanisms">
+            <!-- 作用機序がここに表示される -->
+        </div>
+        <div class="column" id="drugs">
+            <!-- 薬の名前がここに表示される -->
         </div>
     </div>
+    <button id="check-answer">採点する</button>
+    <p id="result"></p>
     
-    <div class="container" id="game-screen">
-        <h1>💊タイピングゲーム💊</h1>
-        <p id="question">ここに薬の名前が表示される</p>
-        <input type="text" id="answer" placeholder="ここに入力..." autofocus>
-        <div class="info">
-            <p id="timer">⏳ 残り時間: <span id="time">30</span>秒</p>
-            <p id="score">🏆 スコア: <span id="points">0</span></p>
-        </div>
-        <button id="quit">終了</button>
-    </div>
-
-    <script src="categories.js"></script>
     <script src="script.js"></script>
+    <script src="data.json"></script>
 </body>
 </html>
+
+         
