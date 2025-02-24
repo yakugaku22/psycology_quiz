@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ctx.strokeStyle = "#007bff";
         ctx.lineWidth = 3;
         ctx.stroke();
-    });
+    };
 };
 
     const startDraw = (element) => {
