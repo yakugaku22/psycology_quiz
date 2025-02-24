@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const selectedPairs = data.sort(() => 0.5 - Math.random()).slice(0, 10);
 
     canvas.width = mechanismsContainer.offsetWidth + drugsContainer.offsetWidth + 100;
-    canvas.height = Math.max(mechanismsContainer.offsetHeight, drugsContainer.offsetHeight);
+    canvas.height = Math.max(mechanismsContainer.offsetHeight, drugsContainer.offsetHeight) + 50;
 
     let connections = [];
     let startPoint = null;
