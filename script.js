@@ -10,9 +10,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await response.json();
     const selectedPairs = data.sort(() => 0.5 - Math.random()).slice(0, 10);
     
+   window.onload = () => {
     canvas.width = mechanismsContainer.offsetWidth + drugsContainer.offsetWidth + 100;
     canvas.height = Math.max(mechanismsContainer.offsetHeight, drugsContainer.offsetHeight);
-
+};
 
     let selectedMechanism = null;
     let connections = [];
