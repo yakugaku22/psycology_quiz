@@ -77,8 +77,19 @@ const drawLines = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
-    renderItems(mechanismsContainer, selectedPairs.map(pair => pair.mechanism), "mechanism");
-    renderItems(drugsContainer, selectedPairs.map(pair => pair.drug).sort(() => 0.5 - Math.random()), "drug");
-});
+const renderItems = (container, items, type) => {
+    items.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("item");
+        div.textContent = item;
+        div.dataset.index = index;
+        div.dataset.type = type;
+        div.addEventListener("mousedown", () => startDraw(div));
+        div.addEventListener("mouseup", () => endDraw(div));
+        div.addEventListener("touchstart", () => startDraw(div));
+        div.addEventListener("touchend", () => endDraw(div));
+        container.appendChild(div);
+    });
+};
 
         
