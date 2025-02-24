@@ -61,10 +61,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             const containerRect = document.querySelector('.game-container').getBoundingClientRect();
 
             ctx.beginPath();
-            ctx.moveTo(start.right - containerRect.left, start.top + start.height / 2 - containerRect.top);
-            ctx.lineTo(end.left - containerRect.left, end.top + end.height / 2 - containerRect.top);
+            ctx.moveTo(50, 50);
+            ctx.lineTo(300, 300);
             ctx.strokeStyle = "#007bff";
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 5;
             ctx.stroke();
         });
     };
