@@ -7,20 +7,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>薬のマッチングゲーム</h1>
+    <h1>薬の作用機序マッチングゲーム</h1>
     <div class="game-container">
-        <div class="column" id="mechanisms">
-            <!-- 作用機序がここに表示される -->
-        </div>
-        <div class="column" id="drugs">
-            <!-- 薬の名前がここに表示される -->
-        </div>
+        <div class="column" id="mechanisms"></div>
+        <canvas id="canvas"></canvas>
+        <div class="column" id="drugs"></div>
     </div>
-    <button id="check-answer">採点する</button>
+    <button id="check-button">採点する</button>
     <p id="result"></p>
-    
     <script src="script.js"></script>
-    <script src="data.json"></script>
 </body>
 </html>
 
