@@ -61,25 +61,6 @@ const drawLines = () => {
         }
     };
 
-    const drawLines = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const mechanismItems = mechanismsContainer.children;
-        const drugItems = drugsContainer.children;
-
-        connections.forEach(({ mechanismIndex, drugIndex }) => {
-            const start = mechanismItems[mechanismIndex].getBoundingClientRect();
-            const end = drugItems[drugIndex].getBoundingClientRect();
-
-            const containerRect = document.querySelector('.game-container').getBoundingClientRect();
-
-            ctx.beginPath();
-            ctx.moveTo(50, 50);
-            ctx.lineTo(300, 300);
-            ctx.strokeStyle = "#007bff";
-            ctx.lineWidth = 5;
-            ctx.stroke();
-        });
-    };
 
     checkButton.addEventListener("click", () => {
         let correctCount = 0;
