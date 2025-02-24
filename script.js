@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
    window.onload = () => {
     canvas.width = mechanismsContainer.offsetWidth + drugsContainer.offsetWidth + 100;
     canvas.height = Math.max(mechanismsContainer.offsetHeight, drugsContainer.offsetHeight);
-};
+  };
 
     let selectedMechanism = null;
     let connections = [];
