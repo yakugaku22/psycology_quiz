@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     let startPoint = null;
 
     const drawLines = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const mechanismItems = mechanismsContainer.children;
-    const drugItems = drugsContainer.children;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const mechanismItems = mechanismsContainer.children;
+        const drugItems = drugsContainer.children;
 
-    const containerRect = document.querySelector('.game-container').getBoundingClientRect();
+        const containerRect = document.querySelector('.game-container').getBoundingClientRect();
 
     connections.forEach(({ mechanismIndex, drugIndex }) => {
         const start = mechanismItems[mechanismIndex].getBoundingClientRect();
