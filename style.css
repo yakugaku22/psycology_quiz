@@ -5,7 +5,11 @@ body {
     align-items: center;
     height: 100vh;
     flex-direction: column;
-    background-color: #f4f4f4;
+    background-color: #e6f7ff;
+}
+
+h1 {
+    color: #007acc;
 }
 
 .game-container {
@@ -13,6 +17,11 @@ body {
     justify-content: space-between;
     width: 60%;
     position: relative;
+    border: 3px solid #007acc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .column {
@@ -20,12 +29,20 @@ body {
 }
 
 .item {
-    background: white;
+    background: linear-gradient(to right, #66ccff, #0099cc);
+    color: white;
     padding: 10px;
     margin: 5px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #007acc;
+    border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.item:hover {
+    background: linear-gradient(to right, #0099cc, #007acc);
+    transform: scale(1.05);
 }
 
 canvas {
@@ -37,7 +54,24 @@ canvas {
 
 #check-button {
     margin-top: 20px;
-    padding: 10px;
+    padding: 10px 20px;
     font-size: 16px;
+    color: white;
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#check-button:hover {
+    background: linear-gradient(to right, #ff5e62, #ff9966);
+    transform: scale(1.1);
+}
+
+#result {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #007acc;
 }
