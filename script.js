@@ -3,20 +3,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const drugsContainer = document.getElementById("drugs");
     const canvas = document.getElementById("canvas");
     const checkButton = document.getElementById("check-button");
+    const resetButton = document.getElementById("reset-button");
     const resultDisplay = document.getElementById("result");
 
     const ctx = canvas.getContext("2d");
     const response = await fetch("data.json");
     const data = await response.json();
     const selectedPairs = data.sort(() => 0.5 - Math.random()).slice(0, 10);
-    
-   window.onload = () => {
+
     canvas.width = mechanismsContainer.offsetWidth + drugsContainer.offsetWidth + 100;
     canvas.height = Math.max(mechanismsContainer.offsetHeight, drugsContainer.offsetHeight);
-  };
 
-    let selectedMechanism = null;
     let connections = [];
+    let startPoint = null;
 
     const renderItems = (container, items, type) => {
         items.forEach((item, index) => {
@@ -25,20 +24,27 @@ document.addEventListener("DOMContentLoaded", async () => {
             div.textContent = item;
             div.dataset.index = index;
             div.dataset.type = type;
-            div.addEventListener("click", () => handleClick(div));
+            div.addEventListener("mousedown", () => startDraw(div));
+            div.addEventListener("mouseup", () => endDraw(div));
+            div.addEventListener("touchstart", () => startDraw(div));
+            div.addEventListener("touchend", () => endDraw(div));
             container.appendChild(div);
         });
     };
 
-    const handleClick = (element) => {
+    const startDraw = (element) => {
         if (element.dataset.type === "mechanism") {
-            selectedMechanism = element;
-        } else if (selectedMechanism) {
+            startPoint = element;
+        }
+    };
+
+    const endDraw = (element) => {
+        if (startPoint && element.dataset.type === "drug") {
             connections.push({
-                mechanismIndex: parseInt(selectedMechanism.dataset.index),
+                mechanismIndex: parseInt(startPoint.dataset.index),
                 drugIndex: parseInt(element.dataset.index)
             });
-            selectedMechanism = null;
+            startPoint = null;
             drawLines();
         }
     };
@@ -52,14 +58,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             const start = mechanismItems[mechanismIndex].getBoundingClientRect();
             const end = drugItems[drugIndex].getBoundingClientRect();
 
-            const offsetX = window.scrollX;
-            const offsetY = window.scrollY;
+            const containerRect = document.querySelector('.game-container').getBoundingClientRect();
 
             ctx.beginPath();
-            ctx.moveTo(start.right - offsetX, start.top + start.height / 2 - offsetY);
-            ctx.lineTo(end.left - offsetX, end.top + end.height / 2 - offsetY);
+            ctx.moveTo(start.right - containerRect.left, start.top + start.height / 2 - containerRect.top);
+            ctx.lineTo(end.left - containerRect.left, end.top + end.height / 2 - containerRect.top);
             ctx.strokeStyle = "#007bff";
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3;
             ctx.stroke();
         });
     };
@@ -74,6 +79,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         resultDisplay.textContent = `正解数: ${correctCount} / 10`;
     });
 
+    resetButton.addEventListener("click", () => {
+        connections = [];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
     renderItems(mechanismsContainer, selectedPairs.map(pair => pair.mechanism), "mechanism");
     renderItems(drugsContainer, selectedPairs.map(pair => pair.drug).sort(() => 0.5 - Math.random()), "drug");
 });
+
+        
