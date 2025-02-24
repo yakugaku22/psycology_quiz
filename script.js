@@ -1,75 +1,77 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const mechanismsContainer = document.getElementById("mechanisms");
     const drugsContainer = document.getElementById("drugs");
-    const checkButton = document.getElementById("check-answer");
+    const canvas = document.getElementById("canvas");
+    const checkButton = document.getElementById("check-button");
     const resultDisplay = document.getElementById("result");
-    
-    // データを読み込む
+
+    const ctx = canvas.getContext("2d");
     const response = await fetch("data.json");
     const data = await response.json();
-    
-    // ランダムに10問を選択
     const selectedPairs = data.sort(() => 0.5 - Math.random()).slice(0, 10);
-    
-    // シャッフルして表示
-    const mechanisms = selectedPairs.map(pair => pair.mechanism);
-    const drugs = selectedPairs.map(pair => pair.drug).sort(() => 0.5 - Math.random());
-    
-    mechanisms.forEach(text => {
-        const div = document.createElement("div");
-        div.textContent = text;
-        div.classList.add("draggable-item");
-        div.draggable = true;
-        div.dataset.type = "mechanism";
-        mechanismsContainer.appendChild(div);
-    });
-    
-    drugs.forEach(text => {
-        const div = document.createElement("div");
-        div.textContent = text;
-        div.classList.add("draggable-item");
-        div.draggable = true;
-        div.dataset.type = "drug";
-        drugsContainer.appendChild(div);
-    });
 
-    let draggedItem = null;
+    canvas.width = document.querySelector('.game-container').offsetWidth;
+    canvas.height = document.querySelector('.game-container').offsetHeight;
 
-    document.querySelectorAll(".draggable-item").forEach(item => {
-        item.addEventListener("dragstart", (e) => {
-            draggedItem = e.target;
+    let selectedMechanism = null;
+    let connections = [];
+
+    const renderItems = (container, items, type) => {
+        items.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.classList.add("item");
+            div.textContent = item;
+            div.dataset.index = index;
+            div.dataset.type = type;
+            div.addEventListener("click", () => handleClick(div));
+            container.appendChild(div);
         });
-    });
+    };
 
-    document.querySelectorAll(".column").forEach(column => {
-        column.addEventListener("dragover", (e) => {
-            e.preventDefault();
-        });
+    const handleClick = (element) => {
+        if (element.dataset.type === "mechanism") {
+            selectedMechanism = element;
+        } else if (selectedMechanism) {
+            connections.push({
+                mechanismIndex: parseInt(selectedMechanism.dataset.index),
+                drugIndex: parseInt(element.dataset.index)
+            });
+            selectedMechanism = null;
+            drawLines();
+        }
+    };
 
-        column.addEventListener("drop", (e) => {
-            if (draggedItem && column.id !== draggedItem.parentElement.id) {
-                column.appendChild(draggedItem);
-                draggedItem = null;
-            }
-        });
-    });
-
-    checkButton.addEventListener("click", () => {
-        let correct = 0;
+    const drawLines = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         const mechanismItems = mechanismsContainer.children;
         const drugItems = drugsContainer.children;
-        
-        for (let i = 0; i < mechanismItems.length; i++) {
-            const mechanismText = mechanismItems[i].textContent;
-            const drugText = drugItems[i].textContent;
-            
-            const correctPair = selectedPairs.find(pair => pair.mechanism === mechanismText);
-            if (correctPair && correctPair.drug === drugText) {
-                correct++;
-            }
-        }
-        
-        resultDisplay.textContent = `正解数: ${correct} / 10`;
-    });
-});
 
+        connections.forEach(({ mechanismIndex, drugIndex }) => {
+            const start = mechanismItems[mechanismIndex].getBoundingClientRect();
+            const end = drugItems[drugIndex].getBoundingClientRect();
+
+            const offsetX = window.scrollX;
+            const offsetY = window.scrollY;
+
+            ctx.beginPath();
+            ctx.moveTo(start.right - offsetX, start.top + start.height / 2 - offsetY);
+            ctx.lineTo(end.left - offsetX, end.top + end.height / 2 - offsetY);
+            ctx.strokeStyle = "#007bff";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+    };
+
+    checkButton.addEventListener("click", () => {
+        let correctCount = 0;
+        connections.forEach(({ mechanismIndex, drugIndex }) => {
+            if (selectedPairs[mechanismIndex].drug === selectedPairs.map(pair => pair.drug)[drugIndex]) {
+                correctCount++;
+            }
+        });
+        resultDisplay.textContent = `正解数: ${correctCount} / 10`;
+    });
+
+    renderItems(mechanismsContainer, selectedPairs.map(pair => pair.mechanism), "mechanism");
+    renderItems(drugsContainer, selectedPairs.map(pair => pair.drug).sort(() => 0.5 - Math.random()), "drug");
+});
