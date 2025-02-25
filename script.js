@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const mechanismItems = mechanismsContainer.children;
         const drugItems = drugsContainer.children;
 
-        const containerRect = document.querySelector('.game-container').getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
 
         connections.forEach(({ mechanismIndex, drugIndex }) => {
             const start = mechanismItems[mechanismIndex].getBoundingClientRect();
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const startY = start.top + start.height / 2 - canvasRect.top;
             const endX = end.left - canvasRect.left;
             const endY = end.top + end.height / 2 - canvasRect.top;
-            
+
             ctx.beginPath();
             ctx.moveTo(startX, startY);
             ctx.lineTo(endX, endY);
