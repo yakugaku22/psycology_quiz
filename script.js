@@ -60,11 +60,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             const start = mechanismItems[mechanismIndex].getBoundingClientRect();
             const end = drugItems[drugIndex].getBoundingClientRect();
 
-            const startX = start.right - containerRect.left + window.scrollX;
-            const startY = start.top + start.height / 2 - containerRect.top + window.scrollY;
-            const endX = end.left - containerRect.left + window.scrollX;
-            const endY = end.top + end.height / 2 - containerRect.top + window.scrollY;
-
+            const startX = start.right - canvasRect.left;
+            const startY = start.top + start.height / 2 - canvasRect.top;
+            const endX = end.left - canvasRect.left;
+            const endY = end.top + end.height / 2 - canvasRect.top;
+            
             ctx.beginPath();
             ctx.moveTo(startX, startY);
             ctx.lineTo(endX, endY);
