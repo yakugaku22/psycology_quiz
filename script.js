@@ -12,37 +12,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     const selectedPairs = data.sort(() => 0.5 - Math.random()).slice(0, 10);
 
     canvas.width = mechanismsContainer.offsetWidth + drugsContainer.offsetWidth + 100;
-    canvas.height = Math.max(mechanismsContainer.offsetHeight, drugsContainer.offsetHeight) + 50;
+    canvas.height = Math.max(mechanismsContainer.offsetHeight, drugsContainer.offsetHeight);
 
     let connections = [];
     let startPoint = null;
 
-const drawLines = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const mechanismItems = mechanismsContainer.children;
-    const drugItems = drugsContainer.children;
-
-    const containerRect = document.querySelector('.game-container').getBoundingClientRect();
-
-    connections.forEach(({ mechanismIndex, drugIndex }) => {
-        const start = mechanismItems[mechanismIndex].getBoundingClientRect();
-        const end = drugItems[drugIndex].getBoundingClientRect();
-
-        // Canvas内の相対座標に変換
-        const startX = start.right - containerRect.left + window.scrollX;
-        const startY = start.top + start.height / 2 - containerRect.top + window.scrollY;
-        const endX = end.left - containerRect.left + window.scrollX;
-        const endY = end.top + end.height / 2 - containerRect.top + window.scrollY;
-
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.strokeStyle = "#007bff";
-        ctx.lineWidth = 3;
-        ctx.stroke();
-    });
-};
-
+    const renderItems = (container, items, type) => {
+        items.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.classList.add("item");
+            div.textContent = item;
+            div.dataset.index = index;
+            div.dataset.type = type;
+            div.addEventListener("mousedown", () => startDraw(div));
+            div.addEventListener("mouseup", () => endDraw(div));
+            div.addEventListener("touchstart", () => startDraw(div));
+            div.addEventListener("touchend", () => endDraw(div));
+            container.appendChild(div);
+        });
+    };
 
     const startDraw = (element) => {
         if (element.dataset.type === "mechanism") {
@@ -61,6 +49,30 @@ const drawLines = () => {
         }
     };
 
+    const drawLines = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const mechanismItems = mechanismsContainer.children;
+        const drugItems = drugsContainer.children;
+
+        const containerRect = document.querySelector('.game-container').getBoundingClientRect();
+
+        connections.forEach(({ mechanismIndex, drugIndex }) => {
+            const start = mechanismItems[mechanismIndex].getBoundingClientRect();
+            const end = drugItems[drugIndex].getBoundingClientRect();
+
+            const startX = start.right - containerRect.left + window.scrollX;
+            const startY = start.top + start.height / 2 - containerRect.top + window.scrollY;
+            const endX = end.left - containerRect.left + window.scrollX;
+            const endY = end.top + end.height / 2 - containerRect.top + window.scrollY;
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = "#007bff";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        });
+    };
 
     checkButton.addEventListener("click", () => {
         let correctCount = 0;
@@ -77,17 +89,6 @@ const drawLines = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
-const renderItems = (container, items, type) => {
-    items.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.classList.add("item");
-        div.textContent = item;
-        div.dataset.index = index;
-        div.dataset.type = type;
-        div.addEventListener("mousedown", () => startDraw(div));
-        div.addEventListener("mouseup", () => endDraw(div));
-        div.addEventListener("touchstart", () => startDraw(div));
-        div.addEventListener("touchend", () => endDraw(div));
-        container.appendChild(div);
-    });
-};
+    renderItems(mechanismsContainer, selectedPairs.map(pair => pair.mechanism), "mechanism");
+    renderItems(drugsContainer, selectedPairs.map(pair => pair.drug).sort(() => 0.5 - Math.random()), "drug");
+});
