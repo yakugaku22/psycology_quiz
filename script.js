@@ -91,5 +91,3 @@ const renderItems = (container, items, type) => {
         container.appendChild(div);
     });
 };
-
-        
